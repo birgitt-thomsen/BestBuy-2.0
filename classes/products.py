@@ -11,11 +11,17 @@ class Product:
         Raises ValueError if the name is empty or if price or quantity is
         negative.
         """
-        if not name:
+        if not name.strip():
             raise ValueError("Name cannot be empty")
+
+        if not isinstance(price, (int, float)):
+            raise TypeError("Price must be numeric")
 
         if price < 0:
             raise ValueError("Price cannot be negative")
+
+        if not isinstance(quantity, int):
+            raise TypeError("Quantity must be an integer")
 
         if quantity < 0:
             raise ValueError("Quantity cannot be negative")
@@ -23,7 +29,7 @@ class Product:
         self.name = name
         self.price = price
         self.quantity = quantity
-        self.active = True
+        self.active = quantity > 0
 
 
     def get_quantity(self):
@@ -67,10 +73,18 @@ class Product:
 
     def buy(self, quantity):
         """ Buys the product and updates the quantity. Raises ValueError
-        when the buy quantity exceeds the product quantity. """
-        if self.quantity < quantity:
+        when the buy quantity exceeds the product quantity or the buy
+        quantity is negative"""
+        if not isinstance(quantity, int):
+            raise TypeError("Quantity must be an integer")
+
+        if quantity < 0:
+            raise ValueError("Buy quantity must be positive")
+
+        if quantity > self.quantity:
             raise ValueError("Insufficient quantity available")
 
-        self.set_quantity(self.quantity - quantity)
+        new_quantity = self.quantity - quantity
+        self.set_quantity(new_quantity)
 
         return float(quantity * self.price)
