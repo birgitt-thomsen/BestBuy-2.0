@@ -88,3 +88,40 @@ class Product:
         self.set_quantity(new_quantity)
 
         return float(quantity * self.price)
+
+
+class NonStockedProduct(Product):
+    """ Creates a non-stocked product that only accepts quantity 0. """
+    def __init__(self, name, price):
+        super().__init__(name, price, 0)
+        self.activate()  # non-stocked products should always be available
+
+    def show(self):
+        print(f"{self.name}, Price: {self.price}, Non-stocked")
+
+    def buy(self, quantity):
+        if quantity < 0:
+            raise ValueError("Buy quantity must be positive")
+
+        return float(quantity * self.price)
+
+
+class LimitedProduct(Product):
+    """ Creates a limited product """
+    def __init__(self, name, price, quantity, maximum):
+        super().__init__(name, price, quantity)
+        self.maximum = maximum
+
+    def buy(self, quantity):
+        if quantity > self.maximum:
+            raise ValueError(
+                f"Cannot purchase more than {self.maximum} of this product"
+            )
+
+        return super().buy(quantity)
+
+    def show(self):
+        print(
+            f"{self.name}, Price: {self.price}, "
+            f"Quantity: {self.quantity}, Maximum: {self.maximum}"
+        )
