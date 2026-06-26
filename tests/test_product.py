@@ -148,7 +148,9 @@ def test_buy_entire_stock_deactivates_product():
 def test_buy_more_than_available_raises_value_error():
     product = Product("Headphones", 25.0, 5)
 
-    with pytest.raises(ValueError, match="Insufficient quantity available"):
+    with pytest.raises(
+            ValueError,
+            match="Insufficient quantity of Headphones available"):
         product.buy(6)
 
     # Quantity should remain unchanged
