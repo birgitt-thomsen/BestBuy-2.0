@@ -12,24 +12,25 @@ class Product:
         negative.
         """
         if not name.strip():
-            raise ValueError("Name cannot be empty")
+            raise ValueError("Name cannot be empty.")
 
         if not isinstance(price, (int, float)):
-            raise TypeError("Price must be numeric")
+            raise TypeError("Price must be numeric.")
 
         if price < 0:
-            raise ValueError("Price cannot be negative")
+            raise ValueError("Price cannot be negative.")
 
         if not isinstance(quantity, int):
-            raise TypeError("Quantity must be an integer")
+            raise TypeError("Quantity must be an integer.")
 
         if quantity < 0:
-            raise ValueError("Quantity cannot be negative")
+            raise ValueError("Quantity cannot be negative.")
 
         self.name = name
         self.price = price
         self.quantity = quantity
         self.active = quantity > 0
+        self.promotion = None
 
 
     def get_quantity(self):
@@ -41,7 +42,7 @@ class Product:
         """ Sets the quantity of the product. Raises ValueError if the
         quantity is negative """
         if quantity < 0:
-            raise ValueError("Quantity cannot be negative")
+            raise ValueError("Quantity cannot be negative.")
 
         self.quantity = quantity
 
@@ -50,25 +51,39 @@ class Product:
         else:
             self.activate()
 
-
     def is_active(self):
         """ Returns whether the product is active """
         return self.active
 
+    def get_promotion(self):
+        """Returns the current promotion"""
+        return self.promotion
+
+    def set_promotion(self, promotion):
+        """Sets the promotion for this product"""
+        self.promotion = promotion
 
     def activate(self):
         """ Activates the product """
         self.active = True
 
-
     def deactivate(self):
         """ Deactivates the product """
         self.active = False
 
-
     def show(self):
-        """ Prints the product details"""
-        print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}")
+        """Prints the product details"""
+        if self.promotion:
+            print(
+                f"{self.name}, Price: {self.price}, "
+                f"Quantity: {self.quantity}, "
+                f"Promotion: {self.promotion.name}"
+            )
+        else:
+            print(
+                f"{self.name}, Price: {self.price}, "
+                f"Quantity: {self.quantity}"
+            )
 
 
     def buy(self, quantity):
@@ -76,16 +91,25 @@ class Product:
         when the buy quantity exceeds the product quantity or the buy
         quantity is negative"""
         if not isinstance(quantity, int):
-            raise TypeError("Quantity must be an integer")
+            raise TypeError(
+                f"Quantity of {self.name} must be an integer."
+            )
 
         if quantity < 0:
-            raise ValueError("Buy quantity must be positive")
+            raise ValueError(
+                f"Buy quantity of {self.name} must be positive."
+            )
 
         if quantity > self.quantity:
-            raise ValueError("Insufficient quantity available")
+            raise ValueError(
+                f"Insufficient quantity of {self.name} available."
+            )
 
         new_quantity = self.quantity - quantity
         self.set_quantity(new_quantity)
+
+        if self.promotion:
+            return self.promotion.apply_promotion(self, quantity)
 
         return float(quantity * self.price)
 
@@ -101,7 +125,9 @@ class NonStockedProduct(Product):
 
     def buy(self, quantity):
         if quantity < 0:
-            raise ValueError("Buy quantity must be positive")
+            raise ValueError(
+                f"Buy quantity of {self.name} must be positive."
+            )
 
         return float(quantity * self.price)
 
@@ -115,7 +141,7 @@ class LimitedProduct(Product):
     def buy(self, quantity):
         if quantity > self.maximum:
             raise ValueError(
-                f"Cannot purchase more than {self.maximum} of this product"
+                f"Cannot purchase more than {self.maximum} of {self.name}."
             )
 
         return super().buy(quantity)

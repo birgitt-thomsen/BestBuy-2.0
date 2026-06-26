@@ -15,13 +15,13 @@ class PercentDiscount(Promotion):
         super().__init__(name)
         self.percent = percent
 
-    def apply_promotion(self, product, quantity):
+    def apply_promotion(self, product, quantity) -> float:
         full_price = product.price * quantity
         return full_price * (1 - self.percent / 100)
 
 
 class SecondHalfPrice(Promotion):
-    def apply_promotion(self, product, quantity):
+    def apply_promotion(self, product, quantity) -> float:
         pairs = quantity // 2
         singles = quantity % 2
 
@@ -32,7 +32,7 @@ class SecondHalfPrice(Promotion):
 
 
 class ThirdOneFree(Promotion):
-    def apply_promotion(self, product, quantity):
+    def apply_promotion(self, product, quantity) -> float:
         free_items = quantity // 3
         paid_items = quantity - free_items
 
