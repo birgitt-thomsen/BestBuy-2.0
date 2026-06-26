@@ -1,5 +1,5 @@
 """ This module ties together the Product and Store classes and handles the
-user interface and program execution """
+user interface and program execution. """
 
 import classes.products as products
 import classes.store as store
@@ -26,9 +26,9 @@ product_list[3].set_promotion(thirty_percent)
 best_buy = store.Store(product_list)
 
 
-def start(store_name):
+def start(store_name) -> None:
     """ Starts the program by showing menu and taking user input, calling the
-    respective functions to execute user selections"""
+    respective functions to execute user selections. """
     while True:
         print("\n\tStore Menu")
         print("\t----------")
@@ -55,7 +55,7 @@ def start(store_name):
             print("Invalid choice")
 
 
-def list_products(store_name):
+def list_products(store_name) -> None:
     """ List all products in store"""
     # print("Listing products...")
     store_name.get_all_products()
@@ -65,15 +65,15 @@ def list_products(store_name):
     print("------")
 
 
-def show_total_quantity(store_name):
+def show_total_quantity(store_name) -> None:
     """ Show total quantity in store"""
-    print(f"Total of {store_name.get_total_quantity()} items in store")
+    print(f"Total of {store_name.get_total_quantity()} items in store.")
 
 
-def make_order(store_name):
+def make_order(store_name) -> None:
     """ Displays products available in store, takes order from user and makes
     order, showing the order total. Catches ValueError when item entered is
-    not valid or when order quantity exceeds available quantity"""
+    not valid or when order quantity exceeds available quantity."""
 
     # print product list
     options = store_name.get_all_products()

@@ -8,22 +8,22 @@ class Store:
 
 
     def __init__(self, products):
-        """ Initializes the Store class with a list of products """
+        """ Initializes the Store class with a list of products. """
         self.products = products
 
 
     def add_product(self, product):
-        """ Adds a product to the store """
+        """ Adds a product to the store. """
         self.products.append(product)
 
 
     def remove_product(self, product):
-        """ Removes a product from the store """
+        """ Removes a product from the store. """
         self.products.remove(product)
 
 
     def get_total_quantity(self):
-        """ Returns the total quantity of the products in the store """
+        """ Returns the total quantity of the products in the store. """
         total = 0
 
         for product in self.products:
@@ -33,7 +33,7 @@ class Store:
 
 
     def get_all_products(self):
-        """ Returns a list of all active products """
+        """ Returns a list of all active products. """
         active_products = []
 
         for product in self.products:
