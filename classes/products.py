@@ -60,7 +60,7 @@ class Product:
         """ Returns whether the product is active. """
         return self.active
 
-    def get_promotion(self) -> Promotion | None:
+    def get_promotion(self) -> Optional["Promotion"] | None:
         """Returns the current promotion. """
         return self.promotion
 
